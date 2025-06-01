@@ -12,14 +12,28 @@ echo "Mounting Windows partition..."
 sudo mkdir -p /mnt/windows
 sudo mount -t ntfs-3g "$WIN_PART" /mnt/windows
 
-echo "Listing UEFI boot entries..."
-sudo efibootmgr -v
+echo "Auto-detecting Windows boot entry..."
+boot_number=$(efibootmgr | grep -Po "(?<=Boot)\S{4}(?=( |\* )Windows)")
 
-read -p "Enter the BootNumber for Windows Boot Manager (e.g., 0001): " win_boot_id
+if [ -z "$boot_number" ]; then
+    echo "Cannot automatically find Windows boot entry."
+    echo "Listing all UEFI boot entries:"
+    sudo efibootmgr -v
+    read -p "Enter the BootNumber for Windows Boot Manager (e.g., 0001): " boot_number
+fi
+
+echo "Found Windows boot entry: $boot_number"
 
 # Save configuration
 mkdir -p ~/.config/lin2win
 echo "WIN_PART=$WIN_PART" > ~/.config/lin2win/config
-echo "WIN_BOOT_ID=$win_boot_id" >> ~/.config/lin2win/config
+echo "WIN_BOOT_ID=$boot_number" >> ~/.config/lin2win/config
+
+# Optional: Setup passwordless efibootmgr
+read -p "Setup passwordless efibootmgr for smoother experience? (y/n): " setup_sudo
+if [[ "$setup_sudo" == "y" ]]; then
+    echo "%wheel ALL=(root) NOPASSWD: /usr/sbin/efibootmgr" | sudo tee /etc/sudoers.d/efibootmgr-config
+    echo "Passwordless efibootmgr configured."
+fi
 
 echo "Setup complete. Configuration saved to ~/.config/lin2win/config"
