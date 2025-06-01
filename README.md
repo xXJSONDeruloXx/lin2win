@@ -37,6 +37,10 @@ Lin2Win allows you to select a Windows executable from Linux, reboot into Window
    ```
 
    - This will copy winlauncher.ps1 to C:\ and create a scheduled task to run it at user logon.
+   - if you get an error, you may first have to run the following in powershell, then execute the setup.ps1 file:
+   ```powershell
+   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+   ```
 
 ## Notes
 
