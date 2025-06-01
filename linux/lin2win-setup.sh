@@ -5,7 +5,27 @@
 echo "Detecting Windows NTFS partitions..."
 lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT | grep -i ntfs
 
-read -p "Enter the device name of your Windows partition (e.g., sda3): " win_part
+echo "Auto-detecting Windows partition..."
+# Look for the largest unmounted NTFS partition (likely Windows C:)
+win_part=$(lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT -n | grep ntfs | grep -v "/run/media" | grep -v "/mnt" | sort -k2 -hr | head -1 | awk '{print $1}')
+
+if [ -n "$win_part" ]; then
+    # Clean up the partition name (remove tree characters)
+    win_part=$(echo "$win_part" | sed 's/[├└│─]*//g')
+    echo "Auto-detected Windows partition: $win_part"
+    read -p "Use detected partition $win_part? (y/n): " use_detected
+    if [[ "$use_detected" != "y" ]]; then
+        win_part=""
+    fi
+fi
+
+if [ -z "$win_part" ]; then
+    echo "Could not auto-detect Windows partition or user declined."
+    echo "Available NTFS partitions:"
+    lsblk -o NAME,SIZE,FSTYPE,MOUNTPOINT | grep -i ntfs
+    read -p "Enter the device name of your Windows partition (e.g., sda3): " win_part
+fi
+
 WIN_PART="/dev/$win_part"
 
 echo "Mounting Windows partition..."
