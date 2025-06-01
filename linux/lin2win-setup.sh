@@ -57,3 +57,19 @@ if [[ "$setup_sudo" == "y" ]]; then
 fi
 
 echo "Setup complete. Configuration saved to ~/.config/lin2win/config"
+echo ""
+echo "🎯 Next step: Complete Windows-side setup"
+echo "   1. Download this repository in Windows"
+echo "   2. Run windows/lin2win-setup.ps1 as Administrator"
+echo ""
+read -p "Boot into Windows now to complete setup? (y/n): " boot_now
+
+if [[ "$boot_now" == "y" ]]; then
+    echo "Setting next boot to Windows..."
+    sudo efibootmgr --bootnext "$boot_number"
+    echo "Rebooting into Windows in 3 seconds..."
+    sleep 3
+    sudo reboot
+else
+    echo "You can boot into Windows later by running: ./lin2win-launch.sh"
+fi
