@@ -13,7 +13,7 @@ sudo mkdir -p /mnt/windows
 sudo mount -t ntfs-3g "$WIN_PART" /mnt/windows
 
 echo "Auto-detecting Windows boot entry..."
-boot_number=$(efibootmgr | grep -Po "(?<=Boot)\S{4}(?=( |\* )Windows)")
+boot_number=$(efibootmgr | grep -i windows | grep -o 'Boot[0-9A-Fa-f]\{4\}' | head -1 | sed 's/Boot//')
 
 if [ -z "$boot_number" ]; then
     echo "Cannot automatically find Windows boot entry."
