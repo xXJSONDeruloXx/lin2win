@@ -73,10 +73,13 @@ echo "Windows path: $win_path"
 # Ask user about auto-return
 read -p "Automatically return to Linux when application closes? (y/n): " auto_return
 
-# Write launch instruction
-echo "$win_path" | sudo tee /mnt/windows/launch_on_boot.txt > /dev/null
+# Write the target executable (persistent - stays until manually cleaned)
+echo "$win_path" | sudo tee /mnt/windows/lin2win_target.txt > /dev/null
 
-# Optionally write return instruction
+# Write launch trigger (deleted after launch)
+echo "launch" | sudo tee /mnt/windows/launch_on_boot.txt > /dev/null
+
+# Optionally write return flag (deleted after return)
 if [[ "$auto_return" == "y" ]]; then
     echo "enabled" | sudo tee /mnt/windows/return_to_linux.txt > /dev/null
     echo "Auto-return enabled: Will return to Linux when $win_path closes"
