@@ -6,7 +6,7 @@ Lin2Win allows you to select a Windows executable from Linux, reboot into Window
 
 ## Setup Instructions
 
-### Linux Side
+### Linux Initial Setup
 
 1. Run the setup script:
 
@@ -17,16 +17,8 @@ Lin2Win allows you to select a Windows executable from Linux, reboot into Window
    - The script will auto-detect your Windows partition and boot entry
    - Confirm the detected settings or enter manually if needed
 
-2. Launch a Windows executable:
 
-   ```bash
-   ./linux/lin2win-launch.sh
-   ```
-
-   - Select the desired .exe file from the list.
-   - The system will reboot into Windows and launch the selected application.
-
-### Windows Side
+### Windows Initial Setup
 
 1. **Open PowerShell as Administrator** (Right-click Start → "Windows PowerShell (Admin)")
 
@@ -63,6 +55,21 @@ Lin2Win allows you to select a Windows executable from Linux, reboot into Window
    ```
 
 4. **Verify setup:** You should see "Scheduled task 'Lin2WinLauncher' created successfully."
+
+5. **return to Linux:** Once you see the above, you can select reboot from windows menu to go back to linux, where we can now test the direct launch program!
+
+## Linux Launch Test
+
+Once back in your linux partition
+
+1. Launch a Windows executable:
+
+   ```bash
+   ./linux/lin2win-launch.sh
+   ```
+
+   - Select the desired .exe file from the list.
+   - The system will reboot into Windows and launch the selected application.
 
 ## Notes
 

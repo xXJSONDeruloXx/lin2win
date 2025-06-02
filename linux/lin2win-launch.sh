@@ -68,11 +68,21 @@ echo "Selected: $exe"
 
 # Convert path to Windows format
 win_path="C:$(echo "${exe#/mnt/windows}" | tr '/' '\\')"
-
 echo "Windows path: $win_path"
+
+# Ask user about auto-return
+read -p "Automatically return to Linux when application closes? (y/n): " auto_return
 
 # Write launch instruction
 echo "$win_path" | sudo tee /mnt/windows/launch_on_boot.txt > /dev/null
+
+# Optionally write return instruction
+if [[ "$auto_return" == "y" ]]; then
+    echo "enabled" | sudo tee /mnt/windows/return_to_linux.txt > /dev/null
+    echo "Auto-return enabled: Will return to Linux when $win_path closes"
+else
+    echo "Auto-return disabled: Will stay in Windows after application closes"
+fi
 
 # Set next boot to Windows
 sudo efibootmgr --bootnext "$WIN_BOOT_ID"
