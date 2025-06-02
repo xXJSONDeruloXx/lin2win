@@ -2,4 +2,9 @@
 
 - make feat to add .desktop shortcuts or add to steam (with artwork/shortcut icons?)
 
-- 
+- better handle when win already mounted
+
+- prettier TUI
+
+- handle things like gamepass and uwp or whatever theyre called
+
