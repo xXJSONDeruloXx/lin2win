@@ -6,6 +6,12 @@ $scriptPath = "C:\winlauncher.ps1"
 # Copy winlauncher.ps1 to C:\
 Copy-Item -Path ".\winlauncher.ps1" -Destination $scriptPath -Force
 
+# Remove existing task if it exists
+if (Get-ScheduledTask -TaskName $taskName -ErrorAction SilentlyContinue) {
+    Unregister-ScheduledTask -TaskName $taskName -Confirm:$false
+    Write-Host "Removed existing scheduled task '$taskName'."
+}
+
 # Create scheduled task
 $action = New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass -File `"$scriptPath`""
 $trigger = New-ScheduledTaskTrigger -AtLogOn
