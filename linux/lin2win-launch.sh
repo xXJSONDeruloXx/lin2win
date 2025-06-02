@@ -71,7 +71,6 @@ app_dirs=(
 
 # System directories with useful tools
 system_dirs=(
-    "Windows/System32"
     "Program Files/Common Files"
 )
 
