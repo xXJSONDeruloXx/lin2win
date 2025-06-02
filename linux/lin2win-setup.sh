@@ -57,6 +57,13 @@ if [[ "$setup_sudo" == "y" ]]; then
 fi
 
 echo "Setup complete. Configuration saved to ~/.config/lin2win/config"
+
+# Clean up - unmount Windows partition
+if mountpoint -q /mnt/windows; then
+    sudo umount /mnt/windows
+    echo "Windows partition unmounted."
+fi
+
 echo ""
 echo "🎯 Next step: Complete Windows-side setup"
 echo "   1. Download this repository in Windows"

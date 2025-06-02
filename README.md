@@ -11,6 +11,10 @@ Lin2Win allows you to select a Windows executable from Linux, reboot into Window
 1. Run the setup script:
 
    ```bash
+   git clone https://github.com/xXJSONDeruloXx/lin2win
+
+   cd lin2win
+   
    ./linux/lin2win-setup.sh
    ```
 
@@ -70,6 +74,25 @@ Once back in your linux partition
 
    - Select the desired .exe file from the list.
    - The system will reboot into Windows and launch the selected application.
+
+## Auto-Return Feature
+
+Lin2Win supports automatically returning to Linux when the launched Windows application closes:
+
+### **How It Works**
+1. When launching from Linux, you'll be prompted: `Automatically return to Linux when application closes? (y/n)`
+2. If you choose "y", Windows will monitor the launched application
+3. When the application exits, Windows will restart automatically
+4. The system will boot back to its default operating system (Linux)
+
+### **Requirements**
+- Linux should be set as the default boot option in your UEFI settings
+- Windows must have permission to restart the system
+
+### **Safety Features**
+- **One-time use**: Return instruction is consumed and deleted after use
+- **Process-specific**: Only monitors the exact application launched from Lin2Win
+- **Manual override**: You can manually delete `C:\return_to_linux.txt` to disable auto-return
 
 ## Notes
 
